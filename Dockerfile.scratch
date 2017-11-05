@@ -1,0 +1,6 @@
+FROM scratch
+MAINTAINER Connor Yates <connor.t.yates@gmail.com>
+ADD server server
+ENV PORR 80
+EXPOSE 80
+ENTRYPOINT ["/contributors"]
