@@ -7,7 +7,6 @@ import (
 
     "github.com/garyburd/redigo/redis"
     "github.com/gorilla/websocket"
-    uuid "github.com/satori/go.uuid"
 )
 
 var (
@@ -39,9 +38,9 @@ type Message struct {
     Content    string `json:"content"`
 }
 
-func (s *Store) newUser(conn *websocket.Conn) *User {
+func (s *Store) newUser(conn *websocket.Conn, id string) *User {
     u := &User{
-        ID:   uuid.NewV4().String(),
+        ID:   id,
         conn: conn,
     }
 
@@ -87,7 +86,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
         log.Printf("upgrader error %s\n" + err.Error())
         return
     }
-    u := gStore.newUser(conn)
+    u := gStore.newUser(conn, r.FormValue("id"))
     log.Printf("user %s joined\n", u.ID)
 
     for {
