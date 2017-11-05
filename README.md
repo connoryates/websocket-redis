@@ -1,5 +1,7 @@
 # websocket-redis
 
+Requires a running Redis instance.
+
 Microservice for handling Redis pub/sub events and websocket connections.
 
 Front-end client should make a websocket connection like so:
@@ -12,4 +14,13 @@ socket.onmessage = function(event) {
 };
 ```
 
-Which creates a Redis channel that sends all publish events back through the websocket.
+Which creates and subscribes to a Redis channel and sends all events back to the client.
+
+# Running
+
+As a Docker container:
+
+```bash
+CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-w' .
+docker build -t yourname/server .
+```
